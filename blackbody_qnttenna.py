@@ -47,7 +47,8 @@ if __name__ == '__main__':
     ax2 = plt.axes([xmargin/xinches, ymargin/yinches, width/xinches, height/yinches])
 
     # File for the blackbody spectrum
-    spectrumfile = join('spectra', 'BB-5500K.txt')
+    # spectrumfile = join('spectra', 'BB-5500K.txt')
+    spectrumfile = join('spectra', 'orange_7mm.txt')
 
     calc_data, spectrum = delta_integral(spectrumfile, [10, 15, 25], autosave=False)
     #calc_data, spectrum = load_calculation('2020-03-17-175531')
