@@ -35,7 +35,7 @@ from os.path import join
 if __name__ == '__main__':
     xinches = 5.0
     yinches = 8.75
-    fig1 = plt.figure('Blackbody', figsize=(xinches, yinches), facecolor='w')
+    fig1 = plt.figure('NREL', figsize=(xinches, yinches), facecolor='w')
 
     width = 3.75
     xmargin = 0.7
@@ -48,15 +48,15 @@ if __name__ == '__main__':
 
     # File for the blackbody spectrum
     # spectrumfile = join('spectra', 'BB-5500K.txt')
-    spectrumfile = join('spectra', 'red_2mm.txt')
+    spectrumfile = join('spectra', 'NREL-full.txt')
 
-    calc_data, spectrum = delta_integral(spectrumfile, [10,15], delta_lambda=(10,120),autosave=False)
+    calc_data, spectrum = delta_integral(spectrumfile, [15,15],delta_lambda=(15,120),autosave=False)
     #calc_data, spectrum = load_calculation('2020-03-17-175531')
     [l0, dl, w, Delta] = calc_data
 
     pk1, pk2 = find_optimum_peaks(l0, dl, w, Delta, 2)
 
-    display_width = 10 # nm
+    display_width = 15 # nm
 
     wi = np.searchsorted(w, display_width)
 
@@ -71,6 +71,7 @@ if __name__ == '__main__':
     ax1.imshow(np.flipud(d), cmap=cmap, norm=cnorm, extent=(np.min(l0), np.max(l0), np.min(dl), np.max(dl)), aspect='auto')
     ax1.plot(pk1[wi,1], pk1[wi,2], 'bo')
     ax1.plot(pk2[wi,1], pk2[wi,2], 'ro')
+    # ax1.plot(pk3[wi,1], pk3[wi,2], 'go')
 
     ax1.set_ylabel(r'$\Delta \lambda$ (nm)')
     ax1.set_xlabel(r'$\lambda_{0}$ (nm)')
@@ -97,11 +98,16 @@ if __name__ == '__main__':
     ax2.plot(xs, norm*gauss(xs, w[wi], pk1[wi,1]+pk1[wi,2]/2), color='blue')
     ax2.plot(xs, norm*gauss(xs, w[wi], pk2[wi,1]-pk2[wi,2]/2), color='red')
     ax2.plot(xs, norm*gauss(xs, w[wi], pk2[wi,1]+pk2[wi,2]/2), color='red')
+    # ax2.plot(xs, norm*gauss(xs, w[wi], pk3[wi,1]-pk3[wi,2]/2), color='green')
+    # ax2.plot(xs, norm*gauss(xs, w[wi], pk3[wi,1]+pk3[wi,2]/2), color='green')
 
     ax2.text(0.025, 0.95, r'$\lambda_0 = $' + str(pk1[wi,1]) + ' nm', color='blue', ha='left', transform=ax2.transAxes)
     ax2.text(0.025, 0.91, r'$\Delta \lambda = $' + str(pk1[wi,2]) + ' nm', color='blue', ha='left', transform=ax2.transAxes)
-    ax2.text(0.9975, 0.95, r'$\lambda_0 = $' + str(pk2[wi,1]) + ' nm', color='red', ha='right', transform=ax2.transAxes)
-    ax2.text(0.9975, 0.91, r'$\Delta \lambda = $' + str(pk2[wi,2]) + ' nm', color='red', ha='right', transform=ax2.transAxes)
+    # ax2.text(0.9975, 0.95, r'$\lambda_0 = $' + str(pk2[wi,1]) + ' nm', color='red', ha='right', transform=ax2.transAxes)
+    # ax2.text(0.9975, 0.91, r'$\Delta \lambda = $' + str(pk2[wi,2]) + ' nm', color='red', ha='right', transform=ax2.transAxes)
+    # ax2.text(0.9975, 0.95, r'$\lambda_0 = $' + str(pk3[wi,1]) + ' nm', color='green', ha='right', transform=ax2.transAxes)
+    # ax2.text(0.9975, 0.91, r'$\Delta \lambda = $' + str(pk3[wi,2]) + ' nm', color='green', ha='right', transform=ax2.transAxes)
+
 
     ax2.set_ylim(0.0, 1.25)
     ax2.set_xlim(np.min(l0), np.max(l0))
